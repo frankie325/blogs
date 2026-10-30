@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+<title id="title">单阶段 Deformable DETR：前向路径</title>
+<desc id="desc">蓝色为图像特征路径，紫色为 Query 与参考点路径。图中展示本地默认的单阶段、无逐层框精修模式。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8799ae"/></marker></defs>
+<rect width="1400" height="760" rx="24" fill="#f6f8fb"/>
+<text x="54" y="62" fill="#1c3047" font-size="30" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">单阶段 Deformable DETR：前向路径</text>
+<text x="54" y="98" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">蓝色为图像特征路径，紫色为 Query 与参考点路径。图中展示本地默认的单阶段、无逐层框精修模式。</text>
+<text x="54" y="145" fill="#3471c4" font-size="18" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">01  图像特征</text>
+<rect x="45" y="165" width="175" height="155" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="65" y="204" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">输入图片</text>
+<text x="65" y="238" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">B × 3 × H × W</text>
+<rect x="265" y="165" width="185" height="155" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="285" y="204" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Backbone</text>
+<text x="285" y="238" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">ResNet-50</text>
+<text x="285" y="266" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C3 / C4 / C5</text>
+<rect x="495" y="165" width="215" height="155" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="515" y="204" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">多尺度特征</text>
+<text x="515" y="238" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">投影 + C6</text>
+<text x="515" y="266" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">位置 / 层级 / mask</text>
+<rect x="755" y="165" width="230" height="155" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="775" y="204" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Encoder × 4</text>
+<text x="775" y="238" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">可变形自注意力</text>
+<text x="775" y="266" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">FFN</text>
+<rect x="1030" y="165" width="250" height="155" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="1050" y="204" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Memory</text>
+<text x="1050" y="238" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">多尺度编码特征</text>
+<text x="1050" y="266" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">[B, 1700, 128] *</text>
+<line x1="224" y1="242" x2="259" y2="242" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="454" y1="242" x2="489" y2="242" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="714" y1="242" x2="749" y2="242" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="989" y1="242" x2="1024" y2="242" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="54" y="384" fill="#7055bb" font-size="18" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">02  OBJECT QUERY 与检测</text>
+<rect x="45" y="410" width="180" height="155" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="65" y="449" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Query 向量</text>
+<text x="65" y="483" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">可学习的初始表示</text>
+<rect x="270" y="410" width="205" height="155" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="290" y="449" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">拆分</text>
+<text x="290" y="483" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">query_pos</text>
+<text x="290" y="511" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">tgt（初始内容）</text>
+<rect x="520" y="410" width="205" height="155" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="540" y="449" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">初始参考点</text>
+<text x="540" y="483" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Linear + Sigmoid</text>
+<text x="540" y="511" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">(x, y)</text>
+<rect x="770" y="410" width="260" height="155" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="790" y="449" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Decoder × 4</text>
+<text x="790" y="483" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">普通自注意力</text>
+<text x="790" y="511" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">可变形交叉注意力 + FFN</text>
+<rect x="1075" y="410" width="205" height="155" rx="17" fill="#e8f7f2" stroke="#dae3ec" stroke-width="2"/>
+<text x="1095" y="449" fill="#278a78" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">预测头</text>
+<text x="1095" y="483" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">分类 logits</text>
+<text x="1095" y="511" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">归一化 (cx,cy,w,h)</text>
+<line x1="229" y1="487" x2="264" y2="487" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="479" y1="487" x2="514" y2="487" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="729" y1="487" x2="764" y2="487" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1034" y1="487" x2="1069" y2="487" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M 1155 320 V 365 H 900 V 405" fill="none" stroke="#3471c4" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<text x="925" y="356" fill="#3471c4" font-size="17" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">memory → 交叉注意力</text>
+<path d="M 372 565 V 615 H 900 V 570" fill="none" stroke="#7055bb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<text x="510" y="646" fill="#7055bb" font-size="17" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">tgt / query_pos → Decoder</text>
+<text x="54" y="708" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">* 张量示例：B=2，输入 256×320，无 padding；不同输入尺寸会改变空间位置数。</text>
+</svg>

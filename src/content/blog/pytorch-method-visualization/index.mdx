@@ -1,0 +1,49 @@
+---
+title: 'PyTorch 方法的可视化'
+description: '通过可视化示例理解 PyTorch 中常用方法的输入、输出和变化过程。'
+publishDate: '2026-10-30'
+language: 'zh-CN'
+tags:
+  - PyTorch
+  - 可视化
+draft: true
+comment: false
+---
+
+import TorchStackPlayer from '../../../remotion/animations/pytorch/torch-stack/TorchStackPlayer'
+
+这篇文章通过可视化示例，记录 PyTorch 中常用方法的输入、操作过程和输出。
+
+## torch.stack：在新维度上堆叠张量
+
+`torch.stack(tensors, dim=0)` 将一组**形状相同**的张量沿一个新维度组合。新维度的长度等于输入张量的数量；`dim` 指定这个维度插入的位置，默认是 `0`。详见 [PyTorch 官方文档](https://docs.pytorch.org/docs/2.9/generated/torch.stack.html)。
+
+下面的动画用绿色和红色分别标记两个输入张量，依次展示 `dim=0`、`dim=1` 和 `dim=2`。输出按第 0 维切成两片显示；可以暂停或拖动进度查看。
+
+<TorchStackPlayer client:visible />
+
+### 从形状理解 dim
+
+假设 `a` 和 `b` 的形状都是 `[2, 3]`，堆叠两个张量时，只需在原形状的指定位置插入一个长度为 `2` 的维度：
+
+| 操作 | 输出形状 | 如何理解 |
+| --- | --- | --- |
+| `stack((a, b), dim=0)` | `[2, 2, 3]` | 先选择 `a` 或 `b`，再取矩阵中的行和列 |
+| `stack((a, b), dim=1)` | `[2, 2, 3]` | 先选择原来的行，再选择该行来自 `a` 还是 `b` |
+| `stack((a, b), dim=2)` | `[2, 3, 2]` | 先选择原来的行和列，再选择来自 `a` 还是 `b` |
+
+前两种情况的形状恰好相同，是因为这个例子中输入数量与原矩阵行数都是 2；它们的元素排列并不相同。`dim=-1` 表示在最后插入维度，在此例中等价于 `dim=2`。
+
+```python
+import torch
+
+a = torch.tensor([[1, 2, 3], [4, 5, 6]])
+b = torch.tensor([[7, 8, 9], [10, 11, 12]])
+
+for dim in (0, 1, 2):
+    result = torch.stack((a, b), dim=dim)
+    print(f'dim={dim}, shape={tuple(result.shape)}')
+    print(result)
+```
+
+对于 `n` 维输入，非负的 `dim` 可从 `0` 到 `n`，输出有 `n + 1` 维。`torch.cat` 则沿**已有维度**拼接，通常不会增加维数；它对输入形状的要求也与 `stack` 不同。

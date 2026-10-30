@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 730" role="img" aria-labelledby="title desc">
+<title id="title">参考点从哪里来？</title>
+<desc id="desc">Encoder 的参考点来自网格中心；单阶段 Decoder 的初始参考点来自可学习 Query 的位置部分。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8799ae"/></marker></defs>
+<rect width="1400" height="730" rx="24" fill="#f6f8fb"/>
+<text x="54" y="62" fill="#1c3047" font-size="30" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">参考点从哪里来？</text>
+<text x="54" y="98" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Encoder 的参考点来自网格中心；单阶段 Decoder 的初始参考点来自可学习 Query 的位置部分。</text>
+<rect x="40" y="140" width="640" height="485" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<rect x="720" y="140" width="640" height="485" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<text x="70" y="185" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">ENCODER</text>
+<text x="750" y="185" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">DECODER · 单阶段</text>
+<text x="70" y="222" fill="#1c3047" font-size="20" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">特征网格位置 → 网格中心</text>
+<text x="750" y="222" fill="#1c3047" font-size="20" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">可学习 Query embedding → query_pos</text>
+<rect x="105" y="280" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="149" y="280" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="193" y="280" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="237" y="280" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="281" y="280" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="105" y="324" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="149" y="324" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="193" y="324" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="237" y="324" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="281" y="324" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="105" y="368" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="149" y="368" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="193" y="368" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="237" y="368" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="281" y="368" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="105" y="412" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="149" y="412" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="193" y="412" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="237" y="412" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<rect x="281" y="412" width="36" height="36" rx="3" fill="#edf4ff" stroke="#c7d9ed" stroke-width="2"/>
+<circle cx="211" cy="342" r="9" fill="#7055bb" stroke="white" stroke-width="2"/>
+<line x1="335" y1="348" x2="385" y2="348" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="395" y="280" width="235" height="140" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="415" y="319" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">网格中心</text>
+<text x="415" y="353" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">相对有效区域归一化</text>
+<text x="415" y="381" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">映射到各特征层</text>
+<rect x="760" y="280" width="225" height="140" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="780" y="319" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">query_pos</text>
+<text x="780" y="353" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">可学习位置表示</text>
+<text x="780" y="381" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Linear + Sigmoid</text>
+<line x1="990" y1="348" x2="1030" y2="348" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1040" y="280" width="245" height="140" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="1060" y="319" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">二维参考点</text>
+<text x="1060" y="353" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">初始 (x, y)</text>
+<text x="1060" y="381" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">映射到各特征层</text>
+<text x="70" y="494" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">参考点用于组织采样，不是采样偏移。</text>
+<text x="750" y="494" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">初始点由 Query 得到，不依赖当前图片。</text>
+<text x="70" y="555" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">有效区域比例 valid_ratios 用于尺度间映射。</text>
+<text x="750" y="555" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">默认关闭逐层框精修，参考点不逐层更新。</text>
+</svg>

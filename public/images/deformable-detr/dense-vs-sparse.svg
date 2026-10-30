@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 690" role="img" aria-labelledby="title desc">
+<title id="title">稠密注意力与可变形采样</title>
+<desc id="desc">示意：左侧访问全部网格位置；右侧只展示一个头、一个尺度的 4 个采样点。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8799ae"/></marker></defs>
+<rect width="1400" height="690" rx="24" fill="#f6f8fb"/>
+<text x="54" y="62" fill="#1c3047" font-size="30" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">稠密注意力与可变形采样</text>
+<text x="54" y="98" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">示意：左侧访问全部网格位置；右侧只展示一个头、一个尺度的 4 个采样点。</text>
+<rect x="40" y="135" width="640" height="465" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<rect x="720" y="135" width="640" height="465" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<text x="68" y="178" fill="#1c3047" font-size="25" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">标准稠密注意力</text>
+<text x="748" y="178" fill="#1c3047" font-size="25" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">多尺度可变形注意力</text>
+<text x="68" y="210" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Query 与每个特征位置建立关系</text>
+<text x="748" y="210" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">以参考点为起点，只读取少量位置</text>
+<circle cx="93" cy="375" r="31" fill="#f2efff" stroke="#7055bb" stroke-width="3"/>
+<text x="93" y="383" fill="#7055bb" font-size="24" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Q</text>
+<circle cx="773" cy="375" r="31" fill="#f2efff" stroke="#7055bb" stroke-width="3"/>
+<text x="773" y="383" fill="#7055bb" font-size="24" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Q</text>
+<line x1="125" y1="375" x2="335" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="335" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="383" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="383" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="431" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="431" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="479" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="479" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="527" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="527" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="575" y2="265" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="575" cy="265" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="335" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="335" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="383" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="383" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="431" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="431" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="479" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="479" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="527" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="527" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="575" y2="313" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="575" cy="313" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="335" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="335" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="383" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="383" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="431" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="431" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="479" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="479" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="527" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="527" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="575" y2="361" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="575" cy="361" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="335" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="335" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="383" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="383" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="431" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="431" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="479" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="479" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="527" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="527" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="575" y2="409" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="575" cy="409" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="335" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="335" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="383" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="383" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="431" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="431" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="479" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="479" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="527" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="527" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<line x1="125" y1="375" x2="575" y2="457" stroke="#d0dcf0" stroke-width="1.5"/>
+<circle cx="575" cy="457" r="7" fill="#3471c4" stroke="none" stroke-width="2"/>
+<circle cx="1015" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1063" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1111" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1159" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1207" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1255" cy="265" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1015" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1063" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1111" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1159" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1207" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1255" cy="313" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1015" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1063" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1111" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1159" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1207" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1255" cy="361" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1015" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1063" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1111" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1159" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1207" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1255" cy="409" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1015" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1063" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1111" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1159" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1207" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<circle cx="1255" cy="457" r="7" fill="#afc3df" stroke="none" stroke-width="2"/>
+<line x1="805" y1="375" x2="1135" y2="360" stroke="#7055bb" stroke-width="2" stroke-dasharray="6 6"/>
+<line x1="1135" y1="360" x2="1088" y2="285" stroke="#ce7140" stroke-width="3"/>
+<circle cx="1088" cy="285" r="11" fill="#fff1e8" stroke="#ce7140" stroke-width="3"/>
+<line x1="1135" y1="360" x2="1197" y2="307" stroke="#ce7140" stroke-width="3"/>
+<circle cx="1197" cy="307" r="11" fill="#fff1e8" stroke="#ce7140" stroke-width="3"/>
+<line x1="1135" y1="360" x2="1233" y2="404" stroke="#ce7140" stroke-width="3"/>
+<circle cx="1233" cy="404" r="11" fill="#fff1e8" stroke="#ce7140" stroke-width="3"/>
+<line x1="1135" y1="360" x2="1082" y2="432" stroke="#ce7140" stroke-width="3"/>
+<circle cx="1082" cy="432" r="11" fill="#fff1e8" stroke="#ce7140" stroke-width="3"/>
+<circle cx="1135" cy="360" r="11" fill="#7055bb" stroke="white" stroke-width="3"/>
+<text x="94" y="548" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">空间位置越多，稠密交互越多</text>
+<circle cx="793" cy="548" r="8" fill="#7055bb" stroke="none" stroke-width="2"/>
+<text x="811" y="555" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">参考点</text>
+<circle cx="915" cy="548" r="8" fill="#fff1e8" stroke="#ce7140" stroke-width="2"/>
+<text x="933" y="555" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">采样位置</text>
+<line x1="1055" y1="548" x2="1090" y2="548" stroke="#ce7140" stroke-width="3"/>
+<text x="1102" y="555" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">采样偏移</text>
+</svg>

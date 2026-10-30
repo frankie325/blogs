@@ -1,0 +1,264 @@
+---
+title: 'Deformable DETR 网络结构详解：从多尺度特征到可变形注意力'
+description: '沿着一张图片的前向传播，拆解多尺度特征、参考点、采样偏移、Encoder、Decoder 与模型变体。'
+publishDate: '2026-10-28'
+language: 'zh-CN'
+tags:
+  - DETR
+  - Transformer
+  - 目标检测
+draft: true
+comment: false
+---
+
+import ReferencePointPlayer from '../../../remotion/animations/deformable-detr/reference-points/ReferencePointPlayer'
+
+DETR 将目标检测写成集合预测问题：Backbone 提取图像特征，Transformer Encoder 编码这些特征，Decoder 使用一组 Object Query 生成目标预测。它省去了传统检测器中不少人工设计的环节，但也留下两个问题：训练收敛慢，以及小目标检测相对困难。
+
+Deformable DETR 的关键思路是：**对于一个 Query，不必在整张特征图的每个位置计算注意力，而是在参考点附近学习少量采样位置，再从多个尺度聚合特征。**
+
+本文假设你已经了解 Transformer 的基本结构。我们会先看整条前向路径，再拆解参考点、采样偏移和注意力权重的来源，最后回到 Encoder、Decoder 和训练。文中的实现示例对应 `handbyhand/deformable_detr`；示例参数不是论文模型的通用定义。
+
+## 1. 从 DETR 的瓶颈出发
+
+原始 DETR 的 Encoder 在图像特征位置之间计算稠密自注意力。如果特征图共有 $N=H\times W$ 个位置，注意力关系的数量随 $N^2$ 增长。提高特征图分辨率可以保留更多小目标细节，却也会推高计算量和显存开销。
+
+Deformable DETR 为每个 Query、每个注意力头在每个尺度选择固定数量的采样点。对单个 Query 来说，采样位置数不随特征图位置总数增加；Encoder 的 Query 数仍会随着特征图变大而增加，完整模块还包含特征投影等计算，不能把整个网络的计算量简化成采样点数量。
+
+![左侧为稠密注意力访问所有位置，右侧为可变形注意力围绕参考点采样的示意图。](/images/deformable-detr/dense-vs-sparse.svg)
+
+［[查看大图](/images/deformable-detr/dense-vs-sparse.svg)］
+
+图中点位只是示意。[原论文](https://arxiv.org/abs/2010.04159)在 COCO 实验中报告了更快的收敛和更好的小目标表现；这些结果不能直接当作其他数据集或本地实现的性能保证。
+
+## 2. 网络全景：从图片到检测结果
+
+![Deformable DETR 单阶段默认前向路径，展示多尺度 Backbone、Encoder、Object Query、Decoder 和检测头。](/images/deformable-detr/network-overview.svg)
+
+［[查看大图](/images/deformable-detr/network-overview.svg)］
+
+一次前向传播可以概括为：
+
+1. **Backbone** 从图片提取不同分辨率的特征图，并投影到统一通道维度。
+2. **Encoder** 使用多尺度可变形自注意力融合图像特征，输出 `memory`。
+3. **Object Query** 提供 Decoder 初始内容和位置表示，并预测初始参考点。
+4. **Decoder** 先让 Query 彼此交互，再用多尺度可变形交叉注意力读取 `memory`。
+5. **检测头** 为每个 Query 输出类别 logits 和归一化边界框。
+
+图中的三处注意力各有分工：Encoder 的自注意力和 Decoder 的交叉注意力使用多尺度可变形注意力；Decoder 内部 Query 之间仍使用普通自注意力。论文方法和模型变体的说明可参照[原论文](https://arxiv.org/pdf/2010.04159)。
+
+本地 `deformable_detr/model/deformable_detr.py` 的 `DeformableDetr.forward` 负责把 Backbone、Transformer 和预测头串起来；注意力细节位于 `deformable_transformer.py`。
+
+## 3. 多尺度特征如何进入 Transformer？
+
+### 3.1 从 ResNet 到四层特征
+
+本地 Backbone 使用 ResNet-50，取出相对输入下采样 8、16、32 倍的三层特征。它们分别经过 `1×1` 卷积和 GroupNorm，统一为 `d_model` 通道；第四层由最深的原始 Backbone 特征经过 `3×3`、步长为 2 的卷积生成，下采样倍数为 64。
+
+这里有多尺度特征，但并没有额外画出 FPN 的自顶向下特征融合路径。不同尺度之间的信息交换主要发生在后续的可变形注意力中。
+
+![四层特征图的尺寸、投影、展平和拼接示意，包含尺度索引和 padding mask。](/images/deformable-detr/multiscale-flatten.svg)
+
+［[查看大图](/images/deformable-detr/multiscale-flatten.svg)］
+
+下面用一组方便追踪的尺寸。假设两张图片均为 `256×320`，没有 padding；本地默认的 `d_model=128`：
+
+| 特征层 | 相对输入步长 | 空间尺寸 | 空间位置数 |
+| --- | ---: | ---: | ---: |
+| C3 投影 | 8 | `32×40` | 1280 |
+| C4 投影 | 16 | `16×20` | 320 |
+| C5 投影 | 32 | `8×10` | 80 |
+| C6 | 64 | `4×5` | 20 |
+| **合计** | — | — | **1700** |
+
+四层展平后沿空间维拼接，得到 `src_flatten: [2, 1700, 128]`。Encoder 输出 `memory` 的形状仍是 `[2, 1700, 128]`；每个位置的特征已经过多尺度交互。
+
+### 3.2 展平后，怎样知道位置属于哪一层？
+
+除了特征序列，Transformer 还接收几项配套信息：
+
+| 信息 | 作用 | 上述示例 |
+| --- | --- | --- |
+| `spatial_shapes` | 记录每个尺度的 `(H, W)`，便于还原特征图与归一化坐标 | `[(32,40), (16,20), (8,10), (4,5)]` |
+| `level_start_index` | 记录每层在拼接序列中的起点 | `[0, 1280, 1600, 1680]` |
+| 位置编码与 `level_embed` | 让 Query 同时携带空间位置与尺度身份 | 与特征序列对应 |
+| `padding_mask` | 标记补齐得到的无效位置 | 无 padding 时全为 `False` |
+| `valid_ratios` | 记录各尺度有效区域的宽、高比例 | 无 padding 时均为 `(1, 1)` |
+
+本地实现的 `valid_ratios` 按右侧、底部补齐形成的矩形有效区域计算。Encoder 计算注意力时，特征与位置、层级编码共同构成 Query；Value 来自图像特征，并在投影后将 padding 位置置零。
+
+## 4. 核心：多尺度可变形注意力
+
+下面先不区分 Encoder 和 Decoder，只看**一个 Query 如何从多尺度特征中取信息**。
+
+![多尺度可变形注意力的数据流：Query 预测偏移与权重，参考点确定采样位置，多尺度 Value 被采样和聚合。](/images/deformable-detr/attention-flow.svg)
+
+［[查看大图](/images/deformable-detr/attention-flow.svg)］
+
+### 4.1 四种容易混淆的量
+
+| 量 | 含义 |
+| --- | --- |
+| **参考点** | 当前 Query 用来组织采样的空间起点 |
+| **采样偏移** | 相对于参考点，为每个头、尺度、采样点预测的二维位移 |
+| **采样位置** | 将参考点与归一化后的采样偏移结合后得到的坐标 |
+| **边界框回归偏移** | 检测头预测的框修正量，用于形成检测框 |
+
+采样偏移决定从哪里读取特征；边界框回归偏移决定预测框。两者由不同的分支生成，不能混为一谈。
+
+### 4.2 Query 如何预测偏移和权重？
+
+记批大小为 $B$、Query 数为 $Q$、注意力头数为 $M$、尺度数为 $L$、每层采样点数为 $K$。本地 `MSDeformAttn` 用两个线性层分别处理 Query：
+
+```python
+# 形状示意，省略了模块构造和后续广播维度
+sampling_offsets = self.sampling_offsets(query).view(B, Q, M, L, K, 2)
+attention_logits = self.attention_weights(query).view(B, Q, M, L * K)
+attention_weights = attention_logits.softmax(-1).view(B, Q, M, L, K)
+```
+
+每个头都会为每个尺度上的每个点预测一个 `(dx, dy)` 和一个权重。同一个 Query、同一个头的 Softmax 范围是**所有尺度和采样点**，因此：
+
+$$
+\sum_{l=1}^{L}\sum_{k=1}^{K} A_{qmlk}=1
+$$
+
+这里的采样偏移和注意力权重都由 Query 经线性投影得到；权重不是先对 Query 和所有位置的 Key 做 $QK^\mathsf{T}$ 再产生的。
+
+本地默认 $M=L=K=4$。对于 Decoder 的 50 个 Query，偏移形状为 `[2, 50, 4, 4, 4, 2]`，权重形状为 `[2, 50, 4, 4, 4]`。每个 Query 的**每个头**读取 `4×4=16` 个采样位置，四个头合计 64 个；每个头处理的是其对应通道子空间的 Value。
+
+### 4.3 如何从参考点得到采样坐标？
+
+先看二维参考点分支。假设参考点已经映射到第 $l$ 层特征图的归一化坐标系，记为 $r_{ql}=(r_x,r_y)$。在第 $m$ 个头、第 $k$ 个采样点，本地代码计算：
+
+$$
+s_{qmlk}=r_{ql}+\frac{\Delta p_{qmlk}}{(W_l,H_l)}
+$$
+
+注意分母顺序是 `(W, H)`，因为坐标和偏移的顺序是 `(x, y)`。参考点来自哪里，取决于调用位置：Encoder 来自网格中心；单阶段 Decoder 的初始点由 Query 的位置部分预测，后文分别展开。
+
+举一个**示意数值**：特征图是 `H=32, W=40`，无 padding，参考点是 `(0.5, 0.5)`，预测偏移是 `(4, -2)`，那么：
+
+$$
+s=(0.5,0.5)+(4/40,-2/32)=(0.6,0.4375)
+$$
+
+采样位置是连续坐标，不需要落在整数网格中心。采样偏移没有被强制限制在参考点附近，模型也不会把所有预测采样位置强行限制在 `[0,1]` 内。
+
+### 4.4 双线性插值与加权聚合
+
+本地实现先把归一化采样位置映射到 `grid_sample` 使用的 `[-1,1]` 范围，再使用 `mode="bilinear"`、`align_corners=False` 读取各尺度 Value 特征。通常一个连续位置由附近四个网格值插值得到；位于边界附近时，图外部分按零填充参与计算。
+
+对一个头来说，每个采样值乘以对应权重，然后跨尺度和采样点求和。所有头的结果拼接后再经过输出投影。可以把流程记成：
+
+```text
+Query ──→ 偏移预测 ──→ 采样位置 ──┐
+  └─────→ 权重预测 ──────────────┤
+多尺度特征 ──→ Value 投影 ──→ 双线性采样 ──→ 加权聚合 ──→ 输出投影
+```
+
+初始化时，本地代码把采样偏移的权重置零，并将偏置设置为不同头沿不同方向、不同半径展开的模式；注意力 logits 初始为零。**这是初始化方式，不意味着训练后的采样点始终沿固定方向。**
+
+## 5. Encoder：特征位置作为 Query
+
+![Encoder 与单阶段 Decoder 参考点来源的对比：网格中心与可学习 Query 的线性预测。](/images/deformable-detr/reference-points.svg)
+
+［[查看大图](/images/deformable-detr/reference-points.svg)］
+
+Encoder 对多尺度特征序列中的每个位置建立一个 Query。对来自某层的有效网格位置，参考点首先由**网格中心**确定；它不是由一个线性层直接预测出来的。
+
+考虑图片被补齐的情况，代码先将该网格中心相对来源层的有效区域归一化，再乘以各目标层的 `valid_ratios`，得到它在各目标层完整特征图坐标系下的参考点。没有 padding 时，比例均为 1；有 padding 时，这一步保证不同尺度之间按有效图像区域对齐。
+
+下面的动画逐步演示 `get_reference_points`：生成网格中心、按有效区域归一化、映射到各尺度，并展示 padding 对应的边界情况。动画使用两个尺度的教学示例；可暂停、拖动进度或全屏观看。
+
+<ReferencePointPlayer client:visible />
+
+随后，一层 Encoder 的主要路径是：
+
+```text
+特征 + 位置/层级编码 → 多尺度可变形自注意力 → 残差与 LayerNorm
+                                      → FFN → 残差与 LayerNorm
+```
+
+每个位置都可以从多个尺度采样。经过多层 Encoder 后，输出仍按原有尺度位置排列，但每个位置的特征已融合了从其他采样位置取得的信息。
+
+代码中分别对应 `DeformableTransformerEncoder.get_reference_points` 和 `DeformableTransformerEncoderLayer.forward`。
+
+## 6. Decoder：Object Query 如何预测目标？
+
+### 6.1 单阶段初始参考点
+
+单阶段模式下，每个可学习 Query embedding 被拆成两部分：`query_pos` 和初始内容 `tgt`。本地代码用 `query_pos` 预测二维初始参考点：
+
+```python
+query_pos, tgt = torch.split(query_embed, d_model, dim=1)
+reference_points = self.reference_points(query_pos).sigmoid()
+```
+
+这里省略了扩展 batch 维度的步骤。初始参考点来自可学习 Query，本身不依赖当前图片；Query 在 Decoder 的交叉注意力中读取 Encoder 输出后，才引入该图片的特征信息。
+
+### 6.2 一层 Decoder 做了什么？
+
+1. **普通自注意力**：Object Query 之间交换信息，Query 和 Key 带位置表示。
+2. **多尺度可变形交叉注意力**：以更新后的 Query 加位置表示预测采样偏移和权重，以 Encoder `memory` 作为 Value。
+3. **FFN**：进一步变换每个 Query 的表示。
+
+每一步都配有残差连接和归一化。Decoder 经过多层后，每个 Query 对应一组检测预测；最后一层用于主要输出，中间层可用于辅助监督。
+
+### 6.3 分类头和边界框头
+
+本地默认有 50 个 Query 和一个 RAOD 前景类别，最终输出：
+
+```text
+pred_logits: [2, 50, 1]
+pred_boxes:  [2, 50, 4]  # 归一化 (cx, cy, w, h)
+```
+
+分类使用 sigmoid/Focal Loss；这里的类别维度不额外添加一个 `no-object` 分类通道。对于二维参考点，框头先预测四维量，中心坐标分量在 logit 空间与参考点结合，再经 Sigmoid 得到最终归一化框。它与第 4 节用于读取特征的采样偏移属于不同分支。
+
+## 7. 训练与推理：预测如何得到监督？
+
+训练时，模型可能产生比真实目标更多的 Query 预测。匈牙利匹配根据分类、框 L1 距离和 GIoU 等代价，为预测与真实框建立一对一匹配；匹配结果用于计算分类和边界框损失。未匹配的 Query 也参与分类监督。辅助损失则为中间 Decoder 层提供训练信号。
+
+推理时不需要匈牙利匹配。本地实现对类别 logits 做 Sigmoid，将归一化 `cxcywh` 转为原图像素坐标下的 `xyxy`，再按分数阈值筛选；预测脚本还会限制保留的高分结果数量。
+
+## 8. 扩展：逐层框精修与 Two-Stage
+
+### 8.1 默认参考点与逐层框精修
+
+本地默认 `WITH_BOX_REFINE=False`。此时各层 Decoder 会更新 Query 内容并各自输出预测框，但**参考点本身不会被更新为上一层预测框**。
+
+启用框精修后，当前层的框预测会用于更新下一层的参考位置。单阶段的初始参考为二维 `(x,y)`；第一次精修后得到四维 `(x,y,w,h)`，后续层可以使用参考框的宽、高调节采样范围。对于四维参考框，本地采样位置可概括为：
+
+$$
+s_{qmlk}=r_{ql}^{xy}+\frac{\Delta p_{qmlk}}{K}\cdot\frac{r_{ql}^{wh}}{2}
+$$
+
+公式中的参考框已映射到对应尺度的坐标系。代码将更新后的参考框 `detach()` 后传给下一层；这不等于 Decoder 各层之间所有梯度连接都被切断。
+
+### 8.2 Two-Stage：从 Encoder 生成候选框
+
+Two-Stage 模式让 Encoder 输出参与候选框生成：多尺度位置先产生候选框和分数，再选出 Top-K 候选框作为 Decoder 初始参考框，并由候选框的位置表示构造初始 Query。Decoder 接着对这些候选进行处理。
+
+本地默认 `TWO_STAGE=False`，且这份实现要求启用 Two-Stage 时同时开启框精修。两种扩展都应作为可选分支阅读，不要混入默认单阶段的数据流。
+
+## 9. 回顾与常见误区
+
+| 问题 | 正确理解 |
+| --- | --- |
+| Encoder 参考点由线性层预测吗？ | 不。它从特征网格中心构造，并考虑有效区域比例。 |
+| 单阶段 Decoder 的初始参考点来自哪里？ | 来自可学习 Query 的位置部分，经线性层和 Sigmoid 得到。 |
+| 采样偏移和检测框偏移一样吗？ | 不一样；一个用于读取特征，一个用于预测框。 |
+| Softmax 对哪些值归一化？ | 对同一 Query、同一注意力头的所有尺度与采样点归一化。 |
+| 每层 Decoder 都会更新参考框吗？ | 只有启用对应的逐层框精修时才会；本地默认关闭。 |
+| 四层特征就是四套独立 Encoder 吗？ | 不是。各层特征拼接后进入共享的多尺度 Encoder。 |
+
+把主线压缩成一句话：**Deformable DETR 用参考点定位采样起点，用 Query 预测采样偏移和权重，从多尺度特征中读取少量位置，再由 Decoder Query 形成目标预测。**
+
+## 参考资料与代码入口
+
+- 论文：[Deformable DETR: Deformable Transformers for End-to-End Object Detection](https://arxiv.org/abs/2010.04159)
+- [官方 Deformable DETR 实现](https://github.com/fundamentalvision/Deformable-DETR)
+- 本地模型与预测头：`deformable_detr/model/deformable_detr.py`
+- 本地 Transformer、参考点和注意力：`deformable_detr/model/deformable_transformer.py`
+- 本地默认参数：`deformable_detr/config.py`；匹配和损失：`deformable_detr/loss/`

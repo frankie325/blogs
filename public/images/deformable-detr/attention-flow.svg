@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 750" role="img" aria-labelledby="title desc">
+<title id="title">多尺度可变形注意力：一个 Query 的数据流</title>
+<desc id="desc">偏移与权重由 Query 预测；参考点确定起点；Value 从多尺度特征中采样。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8799ae"/></marker></defs>
+<rect width="1400" height="750" rx="24" fill="#f6f8fb"/>
+<text x="54" y="62" fill="#1c3047" font-size="30" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">多尺度可变形注意力：一个 Query 的数据流</text>
+<text x="54" y="98" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">偏移与权重由 Query 预测；参考点确定起点；Value 从多尺度特征中采样。</text>
+<rect x="45" y="265" width="220" height="120" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="65" y="304" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Query</text>
+<text x="65" y="338" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">特征 + 位置表示</text>
+<rect x="315" y="135" width="220" height="100" rx="17" fill="#fff1e8" stroke="#dae3ec" stroke-width="2"/>
+<text x="335" y="174" fill="#ce7140" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Linear</text>
+<text x="335" y="208" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">采样偏移 Δp</text>
+<rect x="315" y="455" width="220" height="115" rx="17" fill="#e8f7f2" stroke="#dae3ec" stroke-width="2"/>
+<text x="335" y="494" fill="#278a78" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Linear + Softmax</text>
+<text x="335" y="528" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">采样权重 A</text>
+<rect x="315" y="295" width="220" height="115" rx="17" fill="#f2efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="335" y="334" fill="#7055bb" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">参考点 r</text>
+<text x="335" y="368" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">映射至各特征层</text>
+<rect x="615" y="135" width="225" height="115" rx="17" fill="#fff1e8" stroke="#dae3ec" stroke-width="2"/>
+<text x="635" y="174" fill="#ce7140" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">采样位置 s</text>
+<text x="635" y="208" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">r + Δp / (W,H)</text>
+<rect x="615" y="455" width="225" height="115" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="635" y="494" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">多尺度 Value</text>
+<text x="635" y="528" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">Value 投影 + mask</text>
+<rect x="900" y="245" width="210" height="130" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="920" y="284" fill="#3471c4" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">双线性采样</text>
+<text x="920" y="318" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">每头 / 每尺度</text>
+<text x="920" y="346" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">读取采样位置</text>
+<rect x="1150" y="245" width="205" height="130" rx="17" fill="#e8f7f2" stroke="#dae3ec" stroke-width="2"/>
+<text x="1170" y="284" fill="#278a78" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">加权聚合</text>
+<text x="1170" y="318" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">跨层与点求和</text>
+<text x="1170" y="346" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">合并各头并投影</text>
+<path d="M 265 305 H 285 V 185 H 310" fill="none" stroke="#7055bb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<path d="M 265 345 H 285 V 512 H 310" fill="none" stroke="#7055bb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<line x1="540" y1="185" x2="610" y2="185" stroke="#ce7140" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M 535 352 H 570 V 218 H 610" fill="none" stroke="#7055bb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<path d="M 840 192 H 875 V 290 H 895" fill="none" stroke="#ce7140" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<path d="M 840 512 H 1005 V 380" fill="none" stroke="#3471c4" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<path d="M 535 512 H 570 V 635 H 1253 V 380" fill="none" stroke="#278a78" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>
+<line x1="1110" y1="310" x2="1145" y2="310" stroke="#3471c4" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="52" y="689" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">二维参考点分支示意。每个头对全部尺度与采样点的权重共同归一化；各头分别聚合。</text>
+</svg>

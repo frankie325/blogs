@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+<title id="title">从多尺度特征图到 Encoder 序列</title>
+<desc id="desc">示例：输入 256×320、无 padding，投影通道 D=128；C6 由原始 C5 经步长为 2 的卷积生成。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8799ae"/></marker></defs>
+<rect width="1400" height="760" rx="24" fill="#f6f8fb"/>
+<text x="54" y="62" fill="#1c3047" font-size="30" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">从多尺度特征图到 Encoder 序列</text>
+<text x="54" y="98" fill="#65758a" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">示例：输入 256×320、无 padding，投影通道 D=128；C6 由原始 C5 经步长为 2 的卷积生成。</text>
+<rect x="45" y="150" width="300" height="205" rx="17" fill="#edf4ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="69" y="190" fill="#3471c4" font-size="26" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C3</text>
+<text x="69" y="230" fill="#1c3047" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">stride 8 · 32×40</text>
+<text x="69" y="265" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">1×1 投影 → 128 维</text>
+<text x="69" y="305" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">1280 个位置</text>
+<line x1="195" y1="357" x2="195" y2="404" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="375" y="150" width="300" height="205" rx="17" fill="#e9f5fb" stroke="#dae3ec" stroke-width="2"/>
+<text x="399" y="190" fill="#3471c4" font-size="26" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C4</text>
+<text x="399" y="230" fill="#1c3047" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">stride 16 · 16×20</text>
+<text x="399" y="265" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">1×1 投影 → 128 维</text>
+<text x="399" y="305" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">320 个位置</text>
+<line x1="525" y1="357" x2="525" y2="404" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="705" y="150" width="300" height="205" rx="17" fill="#f0f0ff" stroke="#dae3ec" stroke-width="2"/>
+<text x="729" y="190" fill="#3471c4" font-size="26" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C5</text>
+<text x="729" y="230" fill="#1c3047" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">stride 32 · 8×10</text>
+<text x="729" y="265" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">1×1 投影 → 128 维</text>
+<text x="729" y="305" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">80 个位置</text>
+<line x1="855" y1="357" x2="855" y2="404" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1035" y="150" width="300" height="205" rx="17" fill="#f6efff" stroke="#dae3ec" stroke-width="2"/>
+<text x="1059" y="190" fill="#3471c4" font-size="26" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C6</text>
+<text x="1059" y="230" fill="#1c3047" font-size="19" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">stride 64 · 4×5</text>
+<text x="1059" y="265" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">3×3 / 2 卷积 → 128 维</text>
+<text x="1059" y="305" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">20 个位置</text>
+<line x1="1185" y1="357" x2="1185" y2="404" stroke="#bcc9d8" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="54" y="435" fill="#1c3047" font-size="23" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">逐层展平并拼接：src_flatten [2, 1700, 128]</text>
+<rect x="54" y="455" width="308" height="74" rx="8" fill="#bdd4f7" stroke="#bdd4f7" stroke-width="2"/>
+<text x="208" y="501" fill="#1c3047" font-size="19" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C3  ·  起点 0</text>
+<rect x="376" y="455" width="308" height="74" rx="8" fill="#c5e8f2" stroke="#c5e8f2" stroke-width="2"/>
+<text x="530" y="501" fill="#1c3047" font-size="19" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C4  ·  起点 1280</text>
+<rect x="698" y="455" width="308" height="74" rx="8" fill="#d0d1f5" stroke="#d0d1f5" stroke-width="2"/>
+<text x="852" y="501" fill="#1c3047" font-size="19" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C5  ·  起点 1600</text>
+<rect x="1020" y="455" width="308" height="74" rx="8" fill="#e4d4f4" stroke="#e4d4f4" stroke-width="2"/>
+<text x="1174" y="501" fill="#1c3047" font-size="19" font-weight="700" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">C6  ·  起点 1680</text>
+<text x="54" y="558" fill="#65758a" font-size="17" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">色块长度为示意，不按位置数量等比例绘制。</text>
+<rect x="54" y="585" width="620" height="89" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<text x="76" y="620" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">spatial_shapes + level_start_index</text>
+<text x="76" y="651" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">记录各层尺寸和序列起点</text>
+<rect x="705" y="585" width="620" height="89" rx="17" fill="white" stroke="#dae3ec" stroke-width="2"/>
+<text x="727" y="620" fill="#1c3047" font-size="20" font-weight="700" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">位置 / 层级编码 + mask / valid_ratios</text>
+<text x="727" y="651" fill="#65758a" font-size="18" font-weight="400" text-anchor="start" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif">为空间位置、尺度与有效区域提供配套信息</text>
+</svg>

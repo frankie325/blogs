@@ -1,0 +1,53 @@
+{
+  "name": "astro-theme-pure",
+  "type": "module",
+  "version": "4.1.6",
+  "scripts": {
+    "dev": "astro dev",
+    "studio": "node --require ./scripts/remotion-loopback-only.cjs ./node_modules/@remotion/cli/remotion-cli.js studio src/remotion/index.ts --ipv4",
+    "dev:check": "astro check --watch & astro dev",
+    "build": "astro-pure check && astro check && astro build",
+    "preview": "astro preview",
+    "sync": "astro sync",
+    "check": "astro check",
+    "astro": "astro",
+    "pure": "astro-pure",
+    "format": "prettier --write  '**/*.{js,jsx,ts,tsx,md,mdx,astro}'",
+    "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}'",
+    "yijiansilian": "bun lint && bun sync && bun check && bun format",
+    "clean": "rm -rf .astro .vercel dist",
+    "cache:avatars": "tsx preset/scripts/cacheAvatars.ts"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.9",
+    "@astrojs/compiler-rs": "^0.1.10",
+    "@astrojs/mdx": "5.0.4",
+    "@astrojs/react": "6.0.4",
+    "@astrojs/rss": "4.0.18",
+    "@remotion/player": "4.0.539",
+    "@waline/client": "^3.15.2",
+    "astro": "6.4.8",
+    "astro-pure": "1.4.9",
+    "katex": "^0.16.47",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "remotion": "4.0.539",
+    "sharp": "^0.34.5",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@remotion/cli": "4.0.539",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@typescript-eslint/parser": "^8.70.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "prettier": "^3.9.8",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}
